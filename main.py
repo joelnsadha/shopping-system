@@ -6,12 +6,32 @@ class User:
 
 class Customer(User):
     def __init__(self, username, email):
-        super().__init__(username, email, "customer")
+        super().__init__(username, email)
+        self.cart = []
+
+    def add_to_cart(self, product, quantity):
+        self.cart.append(product)
+
+    def remove_from_cart(self, product):
+        if product in self.cart:
+            self.cart.remove(product)
+        else:
+            print("Item not in cart")
+
+    def view_cart(self):
+        for item in self.cart:
+            print(item.name)
+
+    def save_cart(self):
+        with open("cart.txt", "w") as f:
+            items = [item for item in self.cart]
+            f.writelines(self.cart)
+            f.close()
 
 
 class Seller(User):
     def __init__(self, username, email):
-        super().__init__(username, email, "seller")
+        super().__init__(username, email)
 
 
 class Product:
@@ -22,9 +42,10 @@ class Product:
         self.seller = seller
 
 
-class Cart:
-    def __init__(self):
-        self.items = []
+def main():
+    joel = Customer("joel01", "email@noemail.com")
+    print(joel.username)
 
-    def add_item(self, product, quantity):
-        self.items.append({"product": product, "quantity": quantity})
+
+if __name__ == "__main__":
+    main()
